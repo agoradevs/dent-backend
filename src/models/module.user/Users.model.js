@@ -24,10 +24,6 @@ const UserSchema = Schema({
         required: [true, 'El correo es obligatorio'],
         unique: true
     },
-    password: {
-        type: String,
-        required: [true, 'La contraseña es obligatoria']
-    },
     phoneNumber: {
         type: String,
 		default: 'No tiene número de celular'
@@ -36,6 +32,10 @@ const UserSchema = Schema({
         type: String,
 		required: [true, 'El carnet de indetidad es obligatorio'],
 		unique: true
+    },
+    age: {
+        type: Number,
+        required: [true, 'La edad es obligatoria']        
     }
 });
 
