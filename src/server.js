@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { createServer } = require('http');
-const { dbConnection } = require('./database/config');
+const { dbConnection } = require('./database');
 
 class Server {
 
@@ -14,7 +14,6 @@ class Server {
         this.paths = {
             //rutas
         };
-
 
         // Conectar a base de datos
         this.conectarDB();
