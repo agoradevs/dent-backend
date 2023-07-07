@@ -1,6 +1,6 @@
 const {Schema,model} = require('mongoose');
 
-const BillsSchema = new Schema({
+const BillsSchema = Schema({
     assistant:{
         typeo:Schema.Types.ObjectId,
         ref:'Users',

@@ -4,17 +4,24 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { response } = require('express');
 const {
-    TeacherSchema,
-    SubjectSchema,
-    PermisionSchema,
-    ProjectSchema,
-    RoleSchema,
-    TypeUserSchema,
     UserSchema,
-    InscriptionSchema,
-    SeasonSchema,
-    StageSchema,
-    RequirementSchema,
+    RolesSchema,
+    TypeUserSchema,
+    TypeAcountSchema,
+    AcountUserSchema,
+    PermissionsSchema,
+    CleaningInventorySchema,
+    InventoryDentistSchema,
+    ProductExpenseSchema,
+    TypeProductsSchema,
+    AppoitmentSchema,
+    TreatmentsSchema,
+    TypeTreatmentSchema,
+    SpecialitiesSchema,
+    SpecialitiesDentistSchema,
+    BillsSchema,
+    DiscountSchema,
+    TypeDisccountSchema
 } = require('./../models');
 
 
@@ -34,11 +41,11 @@ mongoose.connection.on('connected', () => {
             console.log('Base de datos borrada correctamente.');
 
             //creando PERMISOS
-            const listPermisions = await PermisionSchema.insertMany(permisions);
+            const listPermisions = await PermissionsSchema.insertMany(permisions);
             const idPermisions = listPermisions.map(e => e._id);
             // creando ROL
-            const rol = RoleSchema({
-                name: 'Desarrollador',
+            const rol = RolesSchema({
+                name: 'Paciente',
                 permisionIds: idPermisions,
                 user: null,
                 state: true,
@@ -46,7 +53,7 @@ mongoose.connection.on('connected', () => {
             const rolCreated = await rol.save();
             // creando TIPO DE USUARIO
             const TypeUser = new TypeUserSchema({
-                name: 'Desarrollador',
+                name: 'Paciente',
                 user: null,
                 state: true
             });
@@ -55,16 +62,22 @@ mongoose.connection.on('connected', () => {
             const user = new UserSchema({
                 rol: rolCreated._id,
                 typeUser: typeUserCreated._id,
-                name: 'Carlos',
-                lastName: 'Cahuaya',
-                code: 'SIS1',
-                email: 'carlos@gmail.com',
-                password: 'carlos123',
-                valid: true,
-                state: true,
-                isSuperUser: true,
+                name: 'Jesus',
+                lastName: 'Huanaco',
+                email: 'jesus@gmail.com',
+                phoneNumber:78923570,
+                CI:'10083746',
+                age: 23,
             });
+            
             const userCreated = await user.save();
+            
+            const acountUser = new AcountUserSchema({
+                user: userCreated._id,
+                state: true,
+            });
+            const acountUserCreated = await acountUser.save();
+
             // editando ROL
             const updateRolObj = { user: userCreated._id };
             await RoleSchema.findByIdAndUpdate(rolCreated._id, updateRolObj, { new: true });
@@ -84,6 +97,50 @@ mongoose.connection.on('connected', () => {
             mongoose.connection.close();
         });
 });
+
+
+
+//lista tipos de usuario
+const typeUsers = [
+    {
+        name: 'Dentista',
+        state: true,
+    },
+    {
+        name: 'Asistente',
+        state: true,
+    },
+    {
+        name: 'Administrador',
+        state: true,
+    },
+    {
+        name: 'Paciente',
+        state: true,
+    },
+];
+
+//lista de tipos de cuenta
+const typeAcounts=[
+    {
+        name:'Paciente Personal',
+        state:true,
+    },
+        
+    {
+        name:'Paciente Familiar',
+        state:true,
+    },
+    {
+        name:'Administrativa',
+        state:true,
+    },
+    {
+        name:'Doctor',
+        state:true,
+    },
+]
+
 //lista de PERMISOS
 const permisions = [
     //Proyectos

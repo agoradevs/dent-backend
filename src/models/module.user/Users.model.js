@@ -25,7 +25,7 @@ const UserSchema = Schema({
         unique: true
     },
     phoneNumber: {
-        type: String,
+        type: Number,
 		default: 'No tiene número de celular'
     },
     CI: {
