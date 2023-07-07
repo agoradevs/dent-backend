@@ -1,24 +1,24 @@
 const {Schema, model} = require('mongoose');
 
-const InventoryDentistSchema = Schema({
-    appointment:{
-        typeo:Schema.Types.ObjectId,
-        ref:'Appointments',
-        required:[true,'La cita es obligatoria'],
+const InventoryDentistSchema = new Schema({
+    appoitment:{
+        type : Schema.Types.ObjectId,
+        ref :'Appoitment',
+        required:[true,'La cita es obligatoria']
     },
     products:[{
-        type:Schema.Types.ObjectId,
-        ref:'ProductsExpense',
-        required:[true,'El producto es obligatorio'],
+        type : Schema.Types.ObjectId,
+        ref : 'ProductsExpense',
+        required : [true,'El producto es obligatorio']
     }],
     cost:{
-        type:Number,
-        required:[true,'El costo es obligatorio'],
+        type : Number,
+        required : [true,'El costo es obligatorio']
     },
     units:{
-        type:Number,
-        required:[true,'Las unidades son obligatorias'],
-    },
+        type : Number,
+        required : [true,'Las unidades son obligatorias']
+    }
 
 },{timestamps:true});
 

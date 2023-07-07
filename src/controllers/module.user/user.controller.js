@@ -1,18 +1,12 @@
 const { response } = require('express');
 const bcrypt = require('bcryptjs');
-const { UserSchema } = require('../models');
+const { UserSchema } = require('../../models');
 
 const getUsers = async (req, res = response) => {
 
     const usuarios = await UserSchema.find()
         .select('name')
-        .select('lastName')
-        .select('code')
-        .select('email')
-        .select('state')
-        .populate('rol', 'name')
-        .populate('typeUser', 'name')
-        .populate('responsible', 'name');
+        .select('passowrd')
 
     res.json({
         ok: true,
@@ -92,8 +86,51 @@ const updateUser = async (req, res = response) => {
         });
     }
 }
+
+const deleteUser = async (req, res = response) => {
+
+    const userId = req.params.id;
+
+    try {
+        const user = await UserSchema.findById(userId)
+        if (user.isSuperUser) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No es posible eliminar a un super usuario'
+            });
+        }
+        let newUser = { ...user }
+        newUser._doc.state = false;
+
+        const userDelete = await UserSchema.findByIdAndUpdate(userId, newUser, { new: true },);
+        const userWithRef = await UserSchema.findById(userDelete.id)
+            .populate({
+                path: 'roleId',
+                populate: {
+                    path: 'permisionIds'
+                },
+            })
+            .populate('typeUserId', 'name')
+            .populate('responsibleId', 'name');
+
+        res.json({
+            ok: true,
+            user: userWithRef
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+
+}
 module.exports = {
     getUsers,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser,
 }

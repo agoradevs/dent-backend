@@ -44,8 +44,8 @@ mongoose.connection.on('connected', () => {
             const listPermisions = await PermissionsSchema.insertMany(permisions);
             const idPermisions = listPermisions.map(e => e._id);
             // creando ROL
-            const rol = RolesSchema({
-                name: 'Paciente',
+            const rol = new RoleSchema({
+                name: 'Desarrollador',
                 permisionIds: idPermisions,
                 user: null,
                 state: true,
@@ -69,7 +69,7 @@ mongoose.connection.on('connected', () => {
                 CI:'10083746',
                 age: 23,
             });
-            
+
             const userCreated = await user.save();
             
             const acountUser = new AcountUserSchema({

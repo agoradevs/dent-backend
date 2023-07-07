@@ -1,22 +1,22 @@
 const {Schema, model} = require('mongoose');
 
-const CleaningInventorySchema = Schema({
+const CleaningInventorySchema = new Schema({
     productExpense:{
-        type:Schema.Types.ObjectId,
-        ref:'ProductsExpense',
-        required:[true,'El producto es obligatorio'],
+        type : Schema.Types.ObjectId,
+        ref: 'ProductsExpense',
+        required: [true,'El producto es obligatorio']
     },
     units:{
-        type:Number,
-        required:[true,'Las unidades son obligatorias'],
+        type : Number,
+        required : [true,'Las unidades son obligatorias']
     },
     description:{
-        type:String,
-        required:[true,'La descripcion del producto es obligatoria'],
+        type : String,
+        required : [true,'La descripcion del producto es obligatoria']
     },
     date:{
-        type:Date,
-        required:[true,'La fecha es obligatoria'],
+        type : Date,
+        required : [true,'La fecha es obligatoria']
     },
 
 },{timestamps:true});

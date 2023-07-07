@@ -1,13 +1,13 @@
 const {Schema, model} = require('mongoose');
 
-const TypeTreatmentSchema = Schema({
+const TypeTreatmentSchema = new Schema({
     name:{
-        type:String,
-        required:[true,'El nombre del tipo de tratamiento es obligatorio'],
+        type : String,
+        required:[true,'El nombre del tipo de tratamiento es obligatorio']
     },
     cost:{
-        type:Number,
-        required:[true,'El costo del tratamiento es obligatorio'],
+        type : Number,
+        required:[true,'El costo del tratamiento es obligatorio']
     }
 },{timestamps:true});
 

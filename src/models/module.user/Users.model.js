@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = Schema({
+const UserSchema = new Schema({
     rol: [{
         type: Schema.Types.ObjectId,
         ref: 'Roles',
