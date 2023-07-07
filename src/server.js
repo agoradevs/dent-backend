@@ -19,7 +19,7 @@ class Server {
             user       : '/api/user',
             typeUser   : '/api/typeUser',
             roles      : '/api/roles',
-            permission : '/api/permission',
+            permissions: '/api/permissions',
             account    : '/api/account',
             typeAccount: '/api/typeAccount',
 
@@ -76,35 +76,35 @@ class Server {
 
     routes() {
         //auth
-        this.app.use(this.paths.auth, require('./routes/auth.route'));
+        // this.app.use(this.paths.auth, require('./routes/auth.route'));
 
         // module users
-        this.app.use(this.paths.user, require('./routes/module.users/user.route'));
+        // this.app.use(this.paths.user, require('./routes/module.users/user.route'));
         this.app.use(this.paths.typeUser, require('./routes/module.users/typeUser.route'));
-        this.app.use(this.paths.roles, require('./routes/module.users/roles.route'));
-        this.app.use(this.paths.permission, require('./routes/module.users/permission.route'));
-        this.app.use(this.paths.account, require('./routes/module.users/account.route'));
-        this.app.use(this.paths.typeAccount, require('./routes/module.users/typeAccount.route'));
+        // this.app.use(this.paths.roles, require('./routes/module.users/roles.route'));
+        this.app.use(this.paths.permissions, require('./routes/module.users/permission.route'));
+        // this.app.use(this.paths.account, require('./routes/module.users/account.route'));
+        // this.app.use(this.paths.typeAccount, require('./routes/module.users/typeAccount.route'));
 
         // module inventary
-        this.app.use(this.paths.productExpense, require('./routes/module.inventary/productExpense.route'));
-        this.app.use(this.paths.typeProduct, require('./routes/module.inventary/typeProduct.route'));
-        this.app.use(this.paths.cleanInventary, require('./routes/module.inventary/cleanInventary.route'));
-        this.app.use(this.paths.dentInventary, require('./routes/module.inventary/dentInventary.route'));
+        // this.app.use(this.paths.productExpense, require('./routes/module.inventary/productExpense.route'));
+        // this.app.use(this.paths.typeProduct, require('./routes/module.inventary/typeProduct.route'));
+        // this.app.use(this.paths.cleanInventary, require('./routes/module.inventary/cleanInventary.route'));
+        // this.app.use(this.paths.dentInventary, require('./routes/module.inventary/dentInventary.route'));
 
         // module history
-        this.app.use(this.paths.appoinment, require('./routes/module.history/appoinment.route'));
-        this.app.use(this.paths.treatment, require('./routes/module.history/treatment.route'));
-        this.app.use(this.paths.typeTreatment, require('./routes/module.history/typeTraetment.route'));
+        // this.app.use(this.paths.appoinment, require('./routes/module.history/appoinment.route'));
+        // this.app.use(this.paths.treatment, require('./routes/module.history/treatment.route'));
+        // this.app.use(this.paths.typeTreatment, require('./routes/module.history/typeTraetment.route'));
 
         // module dentists
-        this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
-        this.app.use(this.paths.specialityDent, require('./routes/module.dentists/specialityDent.route'));
+        // this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
+        // this.app.use(this.paths.specialityDent, require('./routes/module.dentists/specialityDent.route'));
 
         // module billing
-        this.app.use(this.paths.bill, require('./routes/module.billing/bill.route'));
-        this.app.use(this.paths.discount, require('./routes/module.billing/discount.route'));
-        this.app.use(this.paths.typeDiscount, require('./routes/module.billing/typeDiscount.route'));
+        // this.app.use(this.paths.bill, require('./routes/module.billing/bill.route'));
+        // this.app.use(this.paths.discount, require('./routes/module.billing/discount.route'));
+        // this.app.use(this.paths.typeDiscount, require('./routes/module.billing/typeDiscount.route'));
     }
 
     listen() {

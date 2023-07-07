@@ -1,15 +1,15 @@
 const {Schema, model} = require('mongoose');
 
-const AcountUserSchema = Schema({
+const AcountUserSchema = new Schema({
     users: [{
         type: Schema.Types.ObjectId,
         ref: 'Users',
-        required: [true, 'El usuario es obligatorio'],
+        required: [true, 'El usuario es obligatorio']
     }],
     typeAcount: {
         type: Schema.Types.ObjectId,
         ref: 'TypeAcounts',
-        required: [true, 'El tipo de cuenta es obligatorio'],
+        required: [true, 'El tipo de cuenta es obligatorio']
     },
     userName:{
         type: String,
@@ -25,7 +25,7 @@ const AcountUserSchema = Schema({
         default: true
     }
 },
-    {timestamps: true});
+{timestamps: true});
 
 AcountUserSchema.method('toJSON', function () {
     const { __v, _id, ...object } = this.toObject();
