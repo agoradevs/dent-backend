@@ -6,7 +6,7 @@ const AcountUserSchema = new Schema({
         ref: 'Users',
         required: [true, 'El usuario es obligatorio']
     }],
-    typeAcount: {
+    typeAccount: {
         type: Schema.Types.ObjectId,
         ref: 'TypeAcounts',
         required: [true, 'El tipo de cuenta es obligatorio']
@@ -34,4 +34,4 @@ AcountUserSchema.method('toJSON', function () {
 });
 
 
-module.exports = model('AccountUser', AcountUserSchema);
+module.exports = model('AccountUsers', AcountUserSchema);

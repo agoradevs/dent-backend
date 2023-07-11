@@ -1,27 +1,25 @@
 const { response } = require('express');
 const bcrypt = require('bcryptjs');
-const UserSchema = require('./../models/module.user/AccountUser.model');
 const { generarJWT } = require('../helpers/jwt');
+const { AcountUserSchema } = require('../models');
 
 
 const loginUsuario = async (req, res = response) => {
     console.log('login', req.body)
-    const { name, password } = req.body;
+    const { userName, password } = req.body;
 
     try {
 
-        const usuario = await UserSchema.findOne({ userName: name })
-            .populate('user', 'userName')
-            .populate('typeAcount', 'userName');
+        const cuenta = await AcountUserSchema.findOne({ userName });
 
-        if (!usuario) {
+        if (!cuenta) {
             return res.status(400).json({
                 errors: [{ msg: "El usuario no existe con ese correo" }]
             });
         }
 
         // Confirmar los passwords
-        const validPassword = bcrypt.compareSync(password, usuario.password);
+        const validPassword = bcrypt.compareSync(password, cuenta.password);
 
         if (!validPassword) {
             return res.status(400).json({
@@ -30,14 +28,13 @@ const loginUsuario = async (req, res = response) => {
         }
 
         // Generar JWT
-        const token = await generarJWT(usuario.id, usuario.userName);
+        const token = await generarJWT(cuenta.id, cuenta.userName);
 
         res.json({
             ok: true,
-            uid: usuario.id,
-            name: usuario.userName,
-            users: usuario.users,
-            type_user: usuario.typeAcount.name,
+            uid: cuenta.id,
+            name: cuenta.userName,
+            users: cuenta.users,
             token
         })
 

@@ -1,12 +1,19 @@
 const { response } = require('express');
-const bcrypt = require('bcryptjs');
 const { UserSchema } = require('../../models');
 
 const getUsers = async (req, res = response) => {
 
     const usuarios = await UserSchema.find()
-        .select('name')
-        .select('passowrd')
+        .populate({
+            path : 'roles',
+            select : ' name',
+            populate : {
+                path : 'permissions',
+                select : 'name'
+            }
+        })
+        .populate('typeUser' , 'name')
+    ;
 
     res.json({
         ok: true,
@@ -18,26 +25,22 @@ const createUser = async (req, res = response) => {
 
     const user = new UserSchema(req.body);
     try {
-        user.responsible = req.uid;
 
-        // Encriptar contraseña
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.email, salt);
-
-        const usuarioGuardado = await user.save();
-        const usuarioConReferencias = await UserSchema.findById(usuarioGuardado.id)
+        const userSave = await user.save();
+        const userWithRef = await UserSchema.findById(userSave.id)
             .select('name')
             .select('lastName')
-            .select('code')
             .select('email')
-            .select('state')
-            .populate('rol', 'name')
+            .select('phoneNumber')
+            .select('CI')
+            .select('age')
+            .populate('roles', 'name')
             .populate('typeUser', 'name')
-            .populate('responsible', 'name');
+        ;
 
         res.json({
             ok: true,
-            usuario: usuarioConReferencias
+            user: userWithRef
         })
 
     } catch (error) {
@@ -51,30 +54,30 @@ const createUser = async (req, res = response) => {
 
 const updateUser = async (req, res = response) => {
 
-    const userId = req.params.id;
+    const userId = req.query.id;
 
     try {
 
-        const nuevoUsuario = {
+        const newUser = {
             ...req.body
         }
 
-        const usuarioActualizado = await UserSchema.findByIdAndUpdate(userId, nuevoUsuario, { new: true },);
+        const userUpdate = await UserSchema.findByIdAndUpdate(userId, newUser, { new: true },);
 
-        const usuarioConReferencias = await UserSchema.findById(usuarioActualizado.id)
+        const userWithRef = await UserSchema.findById(userUpdate.id)
             .select('name')
             .select('lastName')
-            .select('code')
             .select('email')
-            .select('state')
-            .populate('rol', 'name')
+            .select('phoneNumber')
+            .select('CI')
+            .select('age')
+            .populate('roles', 'name')
             .populate('typeUser', 'name')
-            .populate('responsible', 'name')
 		;
 
         res.json({
             ok: true,
-            usuario: usuarioConReferencias
+            usuario: userWithRef
         });
 
 
@@ -89,29 +92,20 @@ const updateUser = async (req, res = response) => {
 
 const deleteUser = async (req, res = response) => {
 
-    const userId = req.params.id;
+    const userId = req.query.id;
 
     try {
-        const user = await UserSchema.findById(userId)
-        if (user.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
+        const user = await UserSchema.findById(userId);
+
         let newUser = { ...user }
         newUser._doc.state = false;
 
         const userDelete = await UserSchema.findByIdAndUpdate(userId, newUser, { new: true },);
         const userWithRef = await UserSchema.findById(userDelete.id)
-            .populate({
-                path: 'roleId',
-                populate: {
-                    path: 'permisionIds'
-                },
-            })
-            .populate('typeUserId', 'name')
-            .populate('responsibleId', 'name');
+            .select('name')
+            .select('lastName')
+            .populate('roles' , 'name')
+        ;
 
         res.json({
             ok: true,

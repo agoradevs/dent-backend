@@ -1,16 +1,20 @@
 const {Schema, model} = require('mongoose');
 
 const DiscountSchema = new Schema({
-    acountUser:{
+    accountUser:{
         type : Schema.Types.ObjectId,
-        ref :'AccountUser',
+        ref :'AccountUsers',
         required : [true,'La cuenta del usuario es obligatoria']
     },
-    typeDisccount:[{
+    typeDiscounts:[{
         type : Schema.Types.ObjectId,
         ref : 'TypeDiscounts',
         required : [true,'El tipo de descuento es obligatorio'],
-    }]
+    }],
+    state : {
+        type : Boolean,
+        default : true
+    }
     
 },
 {timestamps:true});

@@ -58,7 +58,7 @@ const emailExists = async (email = "", data = "") => {
   });
 
   if (existRol) {
-    throw new Error(`El nombre: ${email}, ya está registrado`);
+    throw new Error(`El email: ${email}, ya está registrado`);
   }
 };
 const categoryExists = async (title = "", data = "") => {

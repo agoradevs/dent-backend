@@ -4,6 +4,10 @@ const TypeAcountSchema = new Schema({
     name:{
         type: String,
         required: [true, 'El tipo de cuenta es obligatorio']
+    },
+    state:{
+        type : Boolean,
+        default : true
     }
 },  
 {timestamps: true});
@@ -14,4 +18,4 @@ TypeAcountSchema.method('toJSON', function () {
     return object;
 });
     
-module.exports=model('TypeAcount', TypeAcountSchema);
+module.exports=model('TypeAcounts', TypeAcountSchema);

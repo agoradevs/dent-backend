@@ -4,7 +4,7 @@ const AppoitmentSchema = new Schema({
     assistant:{
         type: Schema.Types.ObjectId,
         ref:'Users',
-        required:[true,'El nombre del encargado es obligatorio']
+        required:[true,'El encargado es obligatorio']
     },
     treatment:{
         type: Schema.Types.ObjectId,
@@ -21,8 +21,13 @@ const AppoitmentSchema = new Schema({
     },
     observations:{
         type: String,
-        required:[true,'Las observaciones son obligatorias']
+        default : ""
     },
+    stateAppoitment : {
+        type : String,
+        default : "Pendiente"
+    }
+    ,
     state:{
         type: Boolean,
         default:true
@@ -36,4 +41,4 @@ AppoitmentSchema.method('toJSON', function () {
     return object;
 });
 
-module.exports = model('Appoitment',AppoitmentSchema);
+module.exports = model('Appoitments',AppoitmentSchema);

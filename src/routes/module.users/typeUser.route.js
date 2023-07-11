@@ -19,8 +19,14 @@ router.post(
     createTypeUser
 );
 
-router.put('/', updateTypeUser)
+router.put('/', 
+    [
+        check('name', 'El nombre de tipo de usuario es obligatorio').not().isEmpty(),
+        validarCampos
+    ],
+    updateTypeUser
+);
 
-router.delete('/', deleteTypeUser)
+router.delete('/', deleteTypeUser);
 
 module.exports = router;

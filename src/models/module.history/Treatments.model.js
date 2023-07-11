@@ -16,21 +16,25 @@ const TreatmentsSchema = new Schema({
         ref : 'TypeTreatments',
         required : [true, 'El tipo de tratamiento es obligatorio']
     },
-    theeths:[{
+    teeths:[{
         type : String,
         required : [true, 'Los dientes tienen que ser especificados']
     }],
-    daysTreatments:{
+    completedDays:{
         type : Number,
-        required : [true, 'la cantidad de dias de tratamiento son obligatorios']
-    },
-    timeTraetments:{
-        type : Number,
-        required : [true, 'la cantidad de tiempo de tratamiento es obligatorio']
+        default : 0
     },
     cost:{
         type : Number,
-        required : [true, 'El costo del tratamiento es obligatorio']
+        default : 0
+    },
+    stateTreatment : {
+        type : String,
+        default : "initiated"
+    },
+    cancelled : {
+        type : Number,
+        default : 0
     },
     state:{
         type : Boolean,

@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    rol: [{
+    roles: [{
         type: Schema.Types.ObjectId,
         ref: 'Roles',
         required: [true, 'El rol es obligatorio']
@@ -21,7 +21,7 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: [true, 'El correo es obligatorio'],
+        default : null,
         unique: true
     },
     phoneNumber: {
@@ -36,6 +36,10 @@ const UserSchema = new Schema({
     age: {
         type: Number,
         required: [true, 'La edad es obligatoria']        
+    },
+    state : {
+        type : Boolean,
+        default : true
     }
 });
 

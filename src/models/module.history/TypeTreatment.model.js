@@ -8,6 +8,14 @@ const TypeTreatmentSchema = new Schema({
     cost:{
         type : Number,
         required:[true,'El costo del tratamiento es obligatorio']
+    },
+    perTooth : {
+        type : Boolean,
+        required : [true , 'Es necesario saber si el tratamiento es por diente']
+    },
+    state : {
+        type : Boolean,
+        default : true
     }
 },{timestamps:true});
 

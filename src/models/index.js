@@ -12,7 +12,6 @@ const AppoitmentSchema = require('./module.history/Appoitment.model');
 const TreatmentsSchema = require('./module.history/Treatments.model');
 const TypeTreatmentSchema = require('./module.history/TypeTreatment.model');
 const SpecialitiesSchema = require('./module.dentist/Specialities.model');
-const SpecialitiesDentistSchema = require('./module.dentist/SpecialitiesDentist.model');
 const BillsSchema = require('./module.billing/Bills.model');
 const DiscountSchema = require('./module.billing/Discount.model');
 const TypeDisccountSchema = require('./module.billing/TypeDiscount.model');
@@ -34,7 +33,6 @@ module.exports = {
     TreatmentsSchema,
     TypeTreatmentSchema,
     SpecialitiesSchema,
-    SpecialitiesDentistSchema,
     BillsSchema,
     DiscountSchema,
     TypeDisccountSchema

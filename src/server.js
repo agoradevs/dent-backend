@@ -30,13 +30,12 @@ class Server {
             dentInventary : '/api/dentInventary',
 
             // module history
-            appoinment   : '/api/appointment',
+            appoinment   : '/api/appoitment',
             treatment    : '/api/treatment',
-            typeTreatment: '/api/typeTraetment',
+            typeTreatment: '/api/typeTreatment',
 
             // module dentists
             speciality    : '/api/speciality',
-            specialityDent: '/api/specialityDent',
 
             // module billing
             bill         : '/api/bill',
@@ -76,15 +75,15 @@ class Server {
 
     routes() {
         //auth
-        // this.app.use(this.paths.auth, require('./routes/auth.route'));
+        this.app.use(this.paths.auth, require('./routes/auth.route'));
 
         // module users
-        // this.app.use(this.paths.user, require('./routes/module.users/user.route'));
+        this.app.use(this.paths.user, require('./routes/module.users/user.route'));
         this.app.use(this.paths.typeUser, require('./routes/module.users/typeUser.route'));
-        // this.app.use(this.paths.roles, require('./routes/module.users/roles.route'));
+        this.app.use(this.paths.roles, require('./routes/module.users/roles.route'));
         this.app.use(this.paths.permissions, require('./routes/module.users/permission.route'));
-        // this.app.use(this.paths.account, require('./routes/module.users/account.route'));
-        // this.app.use(this.paths.typeAccount, require('./routes/module.users/typeAccount.route'));
+        this.app.use(this.paths.account, require('./routes/module.users/account.route'));
+        this.app.use(this.paths.typeAccount, require('./routes/module.users/typeAccount.route'));
 
         // module inventary
         // this.app.use(this.paths.productExpense, require('./routes/module.inventary/productExpense.route'));
@@ -93,18 +92,17 @@ class Server {
         // this.app.use(this.paths.dentInventary, require('./routes/module.inventary/dentInventary.route'));
 
         // module history
-        // this.app.use(this.paths.appoinment, require('./routes/module.history/appoinment.route'));
-        // this.app.use(this.paths.treatment, require('./routes/module.history/treatment.route'));
-        // this.app.use(this.paths.typeTreatment, require('./routes/module.history/typeTraetment.route'));
+        this.app.use(this.paths.appoinment, require('./routes/module.history/appoinment.route'));
+        this.app.use(this.paths.treatment, require('./routes/module.history/treatment.route'));
+        this.app.use(this.paths.typeTreatment, require('./routes/module.history/typeTreatment.route'));
 
         // module dentists
         // this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
-        // this.app.use(this.paths.specialityDent, require('./routes/module.dentists/specialityDent.route'));
 
         // module billing
         // this.app.use(this.paths.bill, require('./routes/module.billing/bill.route'));
-        // this.app.use(this.paths.discount, require('./routes/module.billing/discount.route'));
-        // this.app.use(this.paths.typeDiscount, require('./routes/module.billing/typeDiscount.route'));
+        this.app.use(this.paths.discount, require('./routes/module.billing/discount.route'));
+        this.app.use(this.paths.typeDiscount, require('./routes/module.billing/typeDiscount.route'));
     }
 
     listen() {

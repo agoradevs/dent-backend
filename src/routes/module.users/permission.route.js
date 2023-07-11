@@ -19,8 +19,14 @@ router.post(
     createPermission
 );
 
-router.put('/', updatePermission)
+router.put('/',
+    [
+        check('name', 'El nombre del permiso es obligatorio').not().isEmpty(),
+        validarCampos
+    ],
+    updatePermission
+);
 
-router.delete('/', deletePermission)
+router.delete('/', deletePermission);
 
 module.exports = router;
