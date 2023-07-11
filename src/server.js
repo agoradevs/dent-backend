@@ -36,7 +36,6 @@ class Server {
 
             // module dentists
             speciality    : '/api/speciality',
-            specialityDent: '/api/specialityDent',
 
             // module billing
             bill         : '/api/bill',
@@ -87,10 +86,10 @@ class Server {
         // this.app.use(this.paths.typeAccount, require('./routes/module.users/typeAccount.route'));
 
         // module inventary
-        // this.app.use(this.paths.productExpense, require('./routes/module.inventary/productExpense.route'));
-        // this.app.use(this.paths.typeProduct, require('./routes/module.inventary/typeProduct.route'));
-        // this.app.use(this.paths.cleanInventary, require('./routes/module.inventary/cleanInventary.route'));
-        // this.app.use(this.paths.dentInventary, require('./routes/module.inventary/dentInventary.route'));
+        this.app.use(this.paths.productExpense, require('./routes/module.inventary/productExpense.route'));
+        this.app.use(this.paths.typeProduct, require('./routes/module.inventary/typeProduct.route'));
+        this.app.use(this.paths.cleanInventary, require('./routes/module.inventary/cleaningInventory.route'));
+        this.app.use(this.paths.dentInventary, require('./routes/module.inventary/inventoryDentist.route'));
 
         // module history
         // this.app.use(this.paths.appoinment, require('./routes/module.history/appoinment.route'));
@@ -98,7 +97,7 @@ class Server {
         // this.app.use(this.paths.typeTreatment, require('./routes/module.history/typeTraetment.route'));
 
         // module dentists
-        // this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
+        this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
         // this.app.use(this.paths.specialityDent, require('./routes/module.dentists/specialityDent.route'));
 
         // module billing

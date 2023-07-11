@@ -50,7 +50,8 @@ const updateTypeUser = async (req, res = response) => {
             ...req.body
         }
 
-        const typeUserUpdate = await TypeUserSchema.findByIdAndUpdate(typeUserId, newTypeUser, { new: true },);
+        const typeUserUpdate = await TypeUserSchema.findByIdAndUpdate(
+            typeUserId, newTypeUser, { new: true },);
 
         res.json({
             ok: true,
