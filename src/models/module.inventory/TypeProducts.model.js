@@ -4,6 +4,10 @@ const TypeProductsSchema = new Schema({
     name:{
         type : String,
         required : [true,'El nombre del tipo de producto es obligatorio']
+    },
+    state:{
+        type : Boolean,
+        default : true
     }
 
 },{timestamps:true});

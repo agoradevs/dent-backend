@@ -1,26 +1,27 @@
+
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../../middlewares/validar-campos');
-const { getSpecialities,updateSpeciality,createSpeciality,deleteSpeciality } = require('../../controllers');
+const { getInventoryDentist,createInventoryDentist,updateInventoryDentist,deleteInventoryDentist} = require('../../controllers');
 const { validarJWT } = require('../../middlewares/validar-jwt');
 
 const router = Router();
 // Todas tienes que pasar por la validación del JWT
 // router.use(validarJWT);
 
-router.get('/', getSpecialities)
+router.get('/', getInventoryDentist)
 
 router.post(
     '/',
     [
-        check('name', 'La especialidad es obligatorio').not().isEmpty(),
+        check('products', 'El nombre de tipo de producto es obligatorio').not().isEmpty(),
         validarCampos
     ],
-    createSpeciality
+    createInventoryDentist
 );
 
-router.put('/', updateSpeciality)
+router.put('/', updateInventoryDentist)
 
-router.delete('/', deleteSpeciality)
+router.delete('/', deleteInventoryDentist)
 
 module.exports = router;
