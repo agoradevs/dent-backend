@@ -4,11 +4,11 @@ const {InventoryDentistSchema} = require('../../models');
 const getInventoryDentist = async (req, res = response) => {
     
         try {
-            const inventoryDentist = await InventoryDentistSchema.find({state : true})
+            const inventoryDentist = await InventoryDentistSchema.find()
             .select('cost')
             .select('units')
-            .populate('appoitment','date')
-            .populate('products','name')
+            .populate('appoitment','treatment date stateAppoitment')
+            .populate('products','nameProduct cost units')
             res.json({
                 ok: true,
                 inventoryDentist
@@ -31,8 +31,8 @@ const getInventoryDentist = async (req, res = response) => {
         const inventarioConReferencias = await InventoryDentistSchema.findById(inventarioDentistaGuardado.id)
             .select('cost')
             .select('units')
-            .populate('appoitment', 'appoitmentDate')
-            .populate('products', 'name')
+            .populate('appoitment', 'treatment date stateAppoitment')
+            .populate('products', 'nameProduct cost units')
 
         res.json({
             ok: true,
@@ -88,17 +88,12 @@ const updateInventoryDentist = async (req, res = response) => {
 
 const deleteInventoryDentist = async (req, res = response) => {
 
-    const InventoryDentistId = req.params.id;
+    const InventoryDentistId = req.query.id;
 
     try {
         const inventoryDentist = await InventoryDentistSchema.findById(InventoryDentistId)
-        if (inventoryDentist.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
-        let newInventoryDentist = { ...user }
+        
+        let newInventoryDentist = { ...inventoryDentist }
         newInventoryDentist._doc.state = false;
 
         const inventoryDentistDelete = await InventoryDentistSchema.findByIdAndUpdate(InventoryDentistId, newInventoryDentist, { new: true },);

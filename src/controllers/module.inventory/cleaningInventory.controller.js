@@ -7,7 +7,7 @@ const getCleaningInventory = async (req, res = response) => {
         .select('units')
         .select('description')
         .select('date')
-        .populate('ProductsExpense' , 'nameProduct')
+        .populate('productExpense' , 'nameProduct')
         
     res.json({
         ok: true,
@@ -45,7 +45,7 @@ const createCleaningInventory = async (req, res = response) => {
 
 const updateCleaningInventory = async (req, res = response) => {
 
-    const InventoryId = req.params.id;
+    const InventoryId = req.query.id;
 
     try {
 
@@ -55,11 +55,11 @@ const updateCleaningInventory = async (req, res = response) => {
 
         const InventarioActualizado = await CleaningInventorySchema.findByIdAndUpdate(InventoryId, nuevoInventario, { new: true },);
 
-        const InventarioConReferencias = await ProductExpenseSchema.findById(InventarioActualizado.id)
+        const InventarioConReferencias = await CleaningInventorySchema.findById(InventarioActualizado.id)
             .select('units')
             .select('description')
             .select('date')
-            .populate('ProductsExpense', 'nameProduct')
+            .populate('productExpense', 'nameProduct')
 		;
 
         res.json({
@@ -79,22 +79,17 @@ const updateCleaningInventory = async (req, res = response) => {
 
 const deleteCleaningInventory = async (req, res = response) => {
 
-    const inventoryId = req.params.id;
+    const inventoryId = req.query.id;
 
     try {
         const inventory = await CleaningInventorySchema.findById(inventoryId)
-        if (inventory.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
-        let newInventory = { ...inventoryId }
+
+        let newInventory = { ...inventory }
         newInventory._doc.state = false;
 
         const inventoryDelete = await CleaningInventorySchema.findByIdAndUpdate(inventoryId, newInventory, { new: true },);
         const inventoryWithRef = await CleaningInventorySchema.findById(inventoryDelete.id)
-            .populate('ProductsExpense', 'nameProduct ')
+            .populate('productExpense', 'nameProduct ')
         res.json({
             ok: true,
             Inventario: inventoryWithRef

@@ -22,6 +22,10 @@ const ProductExpenseSchema = new Schema({
         type : String,
         required : [true,'La descripcion del producto es obligatoria'],
     },
+    state:{
+        type : Boolean,
+        default : true,
+    },
 
 },{timestamps:true});
 

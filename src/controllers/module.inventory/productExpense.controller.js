@@ -5,11 +5,11 @@ const { ProductExpenseSchema } = require('../../models');
 const getProductExpense = async (req, res = response) => {
 
     const Products = await ProductExpenseSchema.find()
-        .select('name')
+        .select('nameProduct')
         .select('units')
         .select('cost')
         .select('description')
-        .populate('typeProduct', 'name')
+        .populate('ProductType', 'name')
     res.json({
         ok: true,
         Products
@@ -47,7 +47,7 @@ const createProductExpense = async (req, res = response) => {
 
 const updateProductExpense = async (req, res = response) => {
 
-    const productId = req.params.id;
+    const productId = req.query.id;
 
     try {
 
@@ -58,7 +58,7 @@ const updateProductExpense = async (req, res = response) => {
         const productoActualizado = await ProductExpenseSchema.findByIdAndUpdate(productId, nuevoProducto, { new: true },);
 
         const productoConReferencias = await ProductExpenseSchema.findById(productoActualizado.id)
-            .select('name')
+            .select('nameProduct')
             .select('units')
             .select('cost')
             .select('description')
@@ -82,17 +82,12 @@ const updateProductExpense = async (req, res = response) => {
 
 const deleteProductExpense = async (req, res = response) => {
 
-    const productId = req.params.id;
+    const productId = req.query.id;
 
     try {
-        const product = await ProductExpenseSchema.findById(productId)
-        if (product.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
-        let newProduct = { ...productId }
+        const ProductExpenseId = await ProductExpenseSchema.findById(productId)
+
+        let newProduct = { ...ProductExpenseId }
         newProduct._doc.state = false;
 
         const productDelete = await ProductExpenseSchema.findByIdAndUpdate(productId, newProduct, { new: true },);

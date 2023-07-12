@@ -3,7 +3,7 @@ const {Schema, model} = require('mongoose');
 const InventoryDentistSchema = new Schema({
     appoitment:{
         type : Schema.Types.ObjectId,
-        ref :'Appoitment',
+        ref :'Appoitments',
         required:[true,'La cita es obligatoria']
     },
     products:[{
@@ -18,7 +18,11 @@ const InventoryDentistSchema = new Schema({
     units:{
         type : Number,
         required : [true,'Las unidades son obligatorias']
-    }
+    },
+    state:{
+        type : Boolean,
+        default : true,
+    },
 
 },{timestamps:true});
 
