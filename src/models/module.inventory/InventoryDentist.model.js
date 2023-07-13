@@ -3,14 +3,14 @@ const {Schema, model} = require('mongoose');
 const InventoryDentistSchema = new Schema({
     appoitment:{
         type : Schema.Types.ObjectId,
-        ref :'Appoitment',
+        ref :'Appoitments',
         required:[true,'La cita es obligatoria']
     },
-    products:[{
+    product : {
         type : Schema.Types.ObjectId,
-        ref : 'ProductsExpense',
+        ref : 'ProductsExpenses',
         required : [true,'El producto es obligatorio']
-    }],
+    },
     cost:{
         type : Number,
         required : [true,'El costo es obligatorio']
@@ -18,6 +18,10 @@ const InventoryDentistSchema = new Schema({
     units:{
         type : Number,
         required : [true,'Las unidades son obligatorias']
+    },
+    state : {
+        type : Boolean,
+        default : true
     }
 
 },{timestamps:true});
@@ -27,4 +31,4 @@ InventoryDentistSchema.method('toJSON', function () {
     object.id = _id;
     return object;
 });
-module.exports = model('InventoryDentist',InventoryDentistSchema);
+module.exports = model('InventoryDentists',InventoryDentistSchema);

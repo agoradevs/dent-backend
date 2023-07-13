@@ -7,20 +7,13 @@ const { validarJWT } = require('../../middlewares/validar-jwt');
 const { emailExists } = require("../../helpers/db-validators");
 const router = Router();
 // Todas tienes que pasar por la validación del JWT
-// router.use(validarJWT);
+router.use(validarJWT);
 
 router.get('/', getUsers)
 
 router.post(
     '/',
     [
-        check('roles')
-            .isArray({min : 1})
-            .withMessage('Tiene que tener al menos 1 rol')
-            .notEmpty()
-            .withMessage('El campo de roles no puede estar vacio')
-        ,
-        check('typeUser', 'El tipo de usuario es obligatorio'),
         check('name', 'El nombre es obligatorio').not().isEmpty(),
         check('lastName', 'El apellido es obligatorio').not().isEmpty(),
         check('email', 'El email es obligatorio').isEmail(),

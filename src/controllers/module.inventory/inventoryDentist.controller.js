@@ -1,14 +1,16 @@
 const {response} = require('express');
-const {InventoryDentistSchema} = require('../../models');
+const {InventoryDentistSchema, ProductExpenseSchema} = require('../../models');
 
 const getInventoryDentist = async (req, res = response) => {
     
         try {
             const inventoryDentist = await InventoryDentistSchema.find({state : true})
-            .select('cost')
-            .select('units')
-            .populate('appoitment','date')
-            .populate('products','name')
+                .select('cost')
+                .select('units')
+                .populate('appoitment','appoitmentDate')
+                .populate('product','name')
+            ;
+            
             res.json({
                 ok: true,
                 inventoryDentist
@@ -26,17 +28,22 @@ const getInventoryDentist = async (req, res = response) => {
  const createInventoryDentist = async (req, res = response) => {
 
     const inventoryDentist = new InventoryDentistSchema(req.body);
-    try {      
-        const inventarioDentistaGuardado = await inventoryDentist.save();
-        const inventarioConReferencias = await InventoryDentistSchema.findById(inventarioDentistaGuardado.id)
+    try {
+
+        const product_cost = await ProductExpenseSchema.findById(inventoryDentist.product).select('cost');
+        
+        inventoryDentist.cost = product_cost.cost * inventoryDentist.units;        
+
+        const inventaryDentistaSave = await inventoryDentist.save();
+        const inventaryWithRef = await InventoryDentistSchema.findById(inventaryDentistaSave.id)
             .select('cost')
             .select('units')
             .populate('appoitment', 'appoitmentDate')
-            .populate('products', 'name')
-
+            .populate('product', 'name')
+        ;
         res.json({
             ok: true,
-            Inventario: inventarioConReferencias
+            Inventario: inventaryWithRef
         })
 
     } catch (error) {
@@ -62,17 +69,18 @@ const updateInventoryDentist = async (req, res = response) => {
             newInventoryDentist,
             {new: true}
         );
-        const inventarioConReferencias = await InventoryDentistSchema.findById(inventoryUpdate.id)
-        .select('cost')
-        .select('units')
-        .populate('appoitment', 'date')
-        .populate('products', 'name')
-    ;
+        const inventaryWithRef = await InventoryDentistSchema.findById(inventoryUpdate.id)
+            .select('cost')
+            .select('units')
+            .select('state')
+            .populate('appoitment', 'appoitmentDate')
+            .populate('product', 'name')
+        ;
 
         res.json
         ({
             ok: true,
-            inventory: inventoryUpdate
+            inventory: inventaryWithRef
         })
 
 
@@ -88,23 +96,19 @@ const updateInventoryDentist = async (req, res = response) => {
 
 const deleteInventoryDentist = async (req, res = response) => {
 
-    const InventoryDentistId = req.params.id;
+    const InventoryDentistId = req.query.id;
 
     try {
         const inventoryDentist = await InventoryDentistSchema.findById(InventoryDentistId)
-        if (inventoryDentist.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
-        let newInventoryDentist = { ...user }
+
+        const newInventoryDentist = { ...inventoryDentist }
         newInventoryDentist._doc.state = false;
 
-        const inventoryDentistDelete = await InventoryDentistSchema.findByIdAndUpdate(InventoryDentistId, newInventoryDentist, { new: true },);
+        const inventoryDentistDelete = await InventoryDentistSchema.findByIdAndUpdate(InventoryDentistId, newInventoryDentist, { new: true });
         const InventoryDentWithRef = await InventoryDentistSchema.findById(inventoryDentistDelete.id)
-            .populate('appoitment', 'date')
-            .populate('products', 'name');
+            .populate('appoitment', 'appoitmentDate')
+            .populate('product', 'name')
+        ;
 
         res.json({
             ok: true,

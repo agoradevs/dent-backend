@@ -1,16 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    roles: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Roles',
-        required: [true, 'El rol es obligatorio']
-    }],
-    typeUser: {
-        type: Schema.Types.ObjectId,
-        ref: 'TypeUsers',
-        required: [true, 'El tipo de usuario es obligatorio']
-    },
     name: {
         type: String,
         required: [true, 'El nombre es obligatorio']

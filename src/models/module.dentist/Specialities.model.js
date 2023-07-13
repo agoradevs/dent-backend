@@ -6,10 +6,10 @@ const SpecialitiesSchema = new Schema({
         required : [true,'El nombre de la especialidad es obligatorio'],
     },
 
-    dentist:[{
+    dentists:[{
         type : Schema.Types.ObjectId,
         ref : 'Users',
-        required : [true,'El id del dentista es obligatorio'],
+        default : [],
     }],
     state:{
         type : Boolean,

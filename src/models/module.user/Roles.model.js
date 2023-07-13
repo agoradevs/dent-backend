@@ -14,9 +14,9 @@ const RolesSchema = new Schema({
         type: Boolean, 
         default: true
     }
-
 },
 {timestamps: true});
+
 
 RolesSchema.method('toJSON', function () {
     const { __v, _id, ...object } = this.toObject();

@@ -14,7 +14,7 @@ const loginUsuario = async (req, res = response) => {
 
         if (!cuenta) {
             return res.status(400).json({
-                errors: [{ msg: "El usuario no existe con ese correo" }]
+                errors: [{ msg: "El usuario no existe con ese nombre" }]
             });
         }
 

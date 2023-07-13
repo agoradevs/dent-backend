@@ -1,13 +1,14 @@
 const { response } = require('express');
-const { CleaningInventorySchema } = require('../../models');
+const { CleaningInventorySchema, ProductExpenseSchema } = require('../../models');
 
 const getCleaningInventory = async (req, res = response) => {
 
-    const CleaningInventory = await CleaningInventorySchema.find()
+    const CleaningInventory = await CleaningInventorySchema.find({state : true})
         .select('units')
         .select('description')
         .select('date')
-        .populate('ProductsExpense' , 'nameProduct')
+        .select('cost')
+        .populate('productExpense' , 'name')
         
     res.json({
         ok: true,
@@ -20,18 +21,22 @@ const createCleaningInventory = async (req, res = response) => {
     const CleaningInventory = new CleaningInventorySchema(req.body);
     try {
 
-        // Encriptar contraseña
+        const product_cost = await ProductExpenseSchema.findById(CleaningInventory.productExpense).select('cost');
 
-        const cleaningInventoryGuardado = await CleaningInventory.save();
-        const cleaningInventoryConReferencias = await CleaningInventorySchema.findById(cleaningInventoryGuardado.id)
+        CleaningInventory.cost = product_cost.cost * CleaningInventory.units;
+        CleaningInventory.date = new Date();
+
+        const cleaningInventorySave = await CleaningInventory.save();
+        const cleaningInventoryWithRef = await CleaningInventorySchema.findById(cleaningInventorySave.id)
             .select('units')
             .select('description')
             .select('date')
+            .select('cost')
             .populate('productExpense', 'nameProduct units cost description')
 
         res.json({
             ok: true,
-            Inventario: cleaningInventoryConReferencias
+            Inventario: cleaningInventoryWithRef
         })
 
     } catch (error) {
@@ -45,26 +50,26 @@ const createCleaningInventory = async (req, res = response) => {
 
 const updateCleaningInventory = async (req, res = response) => {
 
-    const InventoryId = req.params.id;
+    const InventoryId = req.query.id;
 
     try {
 
-        const nuevoInventario = {
+        const newInventary = {
             ...req.body
         }
 
-        const InventarioActualizado = await CleaningInventorySchema.findByIdAndUpdate(InventoryId, nuevoInventario, { new: true },);
+        const InventaryUpdate = await CleaningInventorySchema.findByIdAndUpdate(InventoryId, newInventary, { new: true });
 
-        const InventarioConReferencias = await ProductExpenseSchema.findById(InventarioActualizado.id)
+        const InventaryWithRef = await CleaningInventorySchema.findById(InventaryUpdate.id)
             .select('units')
             .select('description')
             .select('date')
-            .populate('ProductsExpense', 'nameProduct')
+            .populate('productExpense', 'name')
 		;
 
         res.json({
             ok: true,
-            Inventario: InventarioConReferencias
+            inventary: InventaryWithRef
         });
 
 
@@ -79,22 +84,17 @@ const updateCleaningInventory = async (req, res = response) => {
 
 const deleteCleaningInventory = async (req, res = response) => {
 
-    const inventoryId = req.params.id;
+    const inventoryId = req.query.id;
 
     try {
         const inventory = await CleaningInventorySchema.findById(inventoryId)
-        if (inventory.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
-        let newInventory = { ...inventoryId }
+        
+        const newInventory = { ...inventory }
         newInventory._doc.state = false;
 
         const inventoryDelete = await CleaningInventorySchema.findByIdAndUpdate(inventoryId, newInventory, { new: true },);
         const inventoryWithRef = await CleaningInventorySchema.findById(inventoryDelete.id)
-            .populate('ProductsExpense', 'nameProduct ')
+            .populate('productExpense', 'name')
         res.json({
             ok: true,
             Inventario: inventoryWithRef

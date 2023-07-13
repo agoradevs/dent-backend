@@ -3,16 +3,13 @@ const { UserSchema } = require('../../models');
 
 const getUsers = async (req, res = response) => {
 
-    const usuarios = await UserSchema.find()
-        .populate({
-            path : 'roles',
-            select : ' name',
-            populate : {
-                path : 'permissions',
-                select : 'name'
-            }
-        })
-        .populate('typeUser' , 'name')
+    const usuarios = await UserSchema.find({state : true})
+        .select('name')
+        .select('lastName')
+        .select('email')
+        .select('phoneNumber')
+        .select('CI')
+        .select('age')
     ;
 
     res.json({
@@ -34,8 +31,6 @@ const createUser = async (req, res = response) => {
             .select('phoneNumber')
             .select('CI')
             .select('age')
-            .populate('roles', 'name')
-            .populate('typeUser', 'name')
         ;
 
         res.json({
@@ -71,8 +66,7 @@ const updateUser = async (req, res = response) => {
             .select('phoneNumber')
             .select('CI')
             .select('age')
-            .populate('roles', 'name')
-            .populate('typeUser', 'name')
+            .populate('rol', 'name')
 		;
 
         res.json({
@@ -104,7 +98,11 @@ const deleteUser = async (req, res = response) => {
         const userWithRef = await UserSchema.findById(userDelete.id)
             .select('name')
             .select('lastName')
-            .populate('roles' , 'name')
+            .select('email')
+            .select('phoneNumber')
+            .select('CI')
+            .select('age')
+            .populate('rol', 'name')
         ;
 
         res.json({

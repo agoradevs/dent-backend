@@ -3,7 +3,7 @@ const {Schema, model} = require('mongoose');
 const CleaningInventorySchema = new Schema({
     productExpense:{
         type : Schema.Types.ObjectId,
-        ref: 'ProductsExpense',
+        ref: 'ProductsExpenses',
         required: [true,'El producto es obligatorio']
     },
     units:{
@@ -18,6 +18,14 @@ const CleaningInventorySchema = new Schema({
         type : Date,
         required : [true,'La fecha es obligatoria']
     },
+    cost :{
+        type : Number,
+        required : [true, 'El costo total gastado es obligatorio']
+    },
+    state : {
+        type : Boolean,
+        default : true
+    }
 
 },{timestamps:true});
 
@@ -27,4 +35,4 @@ CleaningInventorySchema.method('toJSON', function () {
     return object;
 });
 
-module.exports = model('CleaningInventory',CleaningInventorySchema);
+module.exports = model('CleaningInventories',CleaningInventorySchema);

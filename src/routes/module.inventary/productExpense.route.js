@@ -6,14 +6,18 @@ const { validarJWT } = require('../../middlewares/validar-jwt');
 
 const router = Router();
 // Todas tienes que pasar por la validación del JWT
-// router.use(validarJWT);
+router.use(validarJWT);
 
 router.get('/', getProductExpense)
 
 router.post(
     '/',
     [
-        check('ProductType', 'El nombre de tipo de producto es obligatorio').not().isEmpty(),
+        check('name', 'El nombre del producto es obligatorio').not().isEmpty(),
+        check('productType', 'El nombre de tipo de producto es obligatorio').not().isEmpty(),
+        check('cost', 'El costo del producto es obligatorio').not().isEmpty(),
+        check('units', 'Las unidades del producto es obligatorio').not().isEmpty(),
+        check('description', 'La descripción del producto es obligatorio').not().isEmpty(),
         validarCampos
     ],
     createProductExpense

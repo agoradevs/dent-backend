@@ -9,6 +9,14 @@ const getAccounts = async (req, res = response) => {
         .select('password')
         .populate('typeAccount', 'name')
         .populate('users', 'name lastName email CI age')
+        .populate({
+            path : 'rol',
+            select : ' name',
+            populate : {
+                path : 'permissions',
+                select : 'name'
+            }
+        })
     ;
 
     res.json({
@@ -23,7 +31,7 @@ const createAccount = async (req, res = response) => {
     try {
 
         const salt = bcrypt.genSaltSync();
-        account.password = bcrypt.hashSync(account.userName, salt);
+        account.password = bcrypt.hashSync(account.password, salt);
 
         const accountSave = await account.save();
         const accountWithRef = await AcountUserSchema.findById(accountSave.id)
@@ -31,6 +39,14 @@ const createAccount = async (req, res = response) => {
             .select('password')
             .populate('typeAccount', 'name')
             .populate('users', 'name lastName email CI age')
+            .populate({
+                path : 'rol',
+                select : ' name',
+                populate : {
+                    path : 'permissions',
+                    select : 'name'
+                }
+            })
         ;
 
         res.json({
@@ -57,19 +73,19 @@ const updateAccount = async (req, res = response) => {
             ...req.body
         }
 
-        if('password' in newAccount && 'userName' in newAccount && newAccount.password !== undefined){
+        if('password' in newAccount && newAccount.password !== undefined){
             const salt = bcrypt.genSaltSync();
-            newAccount.password = bcrypt.hashSync(newAccount.userName, salt);
+            newAccount.password = bcrypt.hashSync(newAccount.password, salt);
         }
 
-
-        const accountUpdate = await AcountUserSchema.findByIdAndUpdate(accountId, newAccount, { new: true },);
+        const accountUpdate = await AcountUserSchema.findByIdAndUpdate(accountId, newAccount, { new: true });
 
         const accountWithRef = await AcountUserSchema.findById(accountUpdate.id)
             .select('userName')
             .select('password')
             .populate('typeAccount', 'name')
             .populate('users', 'name lastName email CI age')
+            .populate('rol', 'name')
 		;
 
         res.json({
@@ -101,6 +117,7 @@ const deleteAccount = async (req, res = response) => {
         const accountWithRef = await AcountUserSchema.findById(accountDelete.id)
             .select('userName')
             .populate('users' , 'name lastName email CI age')
+            .populate('rol', 'name')
         ;
 
         res.json({

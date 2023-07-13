@@ -3,7 +3,7 @@ const { AppoitmentSchema } = require('./../../models');
 
 const getAppoitments = async (req, res = response) => {
     try {
-        const treatments = await AppoitmentSchema.find({state : true})
+        const appoitments = await AppoitmentSchema.find({state : true})
 			.select('duration')
 			.select('stateAppoitment')
             .select('appoitmentDate')
@@ -20,7 +20,7 @@ const getAppoitments = async (req, res = response) => {
 
         res.json({
             ok: true,
-            treatments
+            appoitments
         });
     } catch (error) {
         console.log(error)
@@ -65,20 +65,20 @@ const createAppoitment = async (req, res = response) => {
 }
 const updateAppoitment = async (req, res = response) => {
 
-    const treatmentId = req.query.id;
+    const appoitmentId = req.query.id;
 
     try {
-        const newTreatment = {
+        const newAppoitment = {
             ...req.body
         }
 
-        const treatmentUpdate = await AppoitmentSchema.findByIdAndUpdate(
-			treatmentId, newTreatment, { new: true }
+        const appoitmentUpdate = await AppoitmentSchema.findByIdAndUpdate(
+			appoitmentId, newAppoitment, { new: true }
 		);
 
         res.json({
             ok: true,
-            treatment : treatmentUpdate
+            appoitment : appoitmentUpdate
         });
 
 
@@ -93,21 +93,21 @@ const updateAppoitment = async (req, res = response) => {
 }
 const deleteAppoitment = async (req, res = response) => {
 
-    const treatmentId = req.query.id;
+    const appoitmentId = req.query.id;
 
     try {
-        const treatment = await AppoitmentSchema.findById(treatmentId)
+        const appoitment = await AppoitmentSchema.findById(appoitmentId)
 
-        let newTreatment = { ...treatment }
-        newTreatment._doc.state = false;
+        const newAppoitment = { ...appoitment }
+        newAppoitment._doc.state = false;
 
-        const treatmentDelete = await AppoitmentSchema.findByIdAndUpdate(
-			treatmentId, newTreatment, { new: true }
+        const appoitmentDelete = await AppoitmentSchema.findByIdAndUpdate(
+			appoitmentId, newAppoitment, { new: true }
 		);
 
         res.json({
             ok: true,
-            treatment : treatmentDelete
+            appoitment : appoitmentDelete
         });
 
 

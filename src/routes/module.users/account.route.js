@@ -4,16 +4,16 @@ const { validarCampos } = require('../../middlewares/validar-campos');
 const { getAccounts, createAccount, updateAccount, deleteAccount } = require('../../controllers');
 const { validarJWT } = require('../../middlewares/validar-jwt');
 
-const { emailExists } = require("../../helpers/db-validators");
 const router = Router();
 // Todas tienes que pasar por la validación del JWT
-// router.use(validarJWT);
+router.use(validarJWT);
 
 router.get('/', getAccounts)
 
 router.post(
     '/',
     [
+        check('rol' , 'El rol es obligatorio').not().isEmpty(),
         check('users')
             .isArray({min : 1})
             .withMessage('Tiene que tener al menos 1 usuario')

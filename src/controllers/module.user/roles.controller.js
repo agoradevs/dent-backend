@@ -86,13 +86,13 @@ const deleteRol = async (req, res = response) => {
 
         const roleDelete = await RolesSchema.findByIdAndUpdate(rolId, newRole, { new: true });
         const roleWithRef = await RolesSchema.findById(roleDelete.id)
-            .populate('permissions')
+            .select('name')
+            .populate('permissions', 'name')
 
         res.json({
             ok: true,
             role: roleWithRef
         });
-
 
     } catch (error) {
         console.log(error);
@@ -101,13 +101,34 @@ const deleteRol = async (req, res = response) => {
             msg: 'Hable con el administrador'
         });
     }
-
 }
 
+const dropRol = async (req, res = response) => {
+
+    const rolId = req.query.id;
+
+    try {
+
+        await RolesSchema.findByIdAndDelete(rolId);
+
+        res.json({
+            ok: true,
+            role: "El rol a sido eliminado correctamente"
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
 
 module.exports = {
     getRoles,
     createRol,
     updateRol,
-    deleteRol
+    deleteRol,
+    dropRol
 }

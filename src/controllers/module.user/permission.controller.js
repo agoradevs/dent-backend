@@ -5,6 +5,8 @@ const getPermissions = async (req, res = response) => {
 
     try {
         const permissions = await PermissionsSchema.find({state : true})
+            .select('name')
+        ;
 
         res.json({
             ok: true,
@@ -100,7 +102,28 @@ const deletePermission = async (req, res = response) => {
             msg: 'Hable con el administrador'
         });
     }
+}
 
+const dropPermission = async (req, res = response) => {
+
+    const permissionId = req.query.id;
+    try {
+
+        await PermissionsSchema.findByIdAndDelete(permissionId);
+
+        res.json({
+            ok: true,
+            permissionDelete : "Permiso eliminado"
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 
@@ -108,5 +131,6 @@ module.exports = {
     getPermissions,
     createPermission,
     updatePermission,
-    deletePermission
+    deletePermission,
+    dropPermission
 }

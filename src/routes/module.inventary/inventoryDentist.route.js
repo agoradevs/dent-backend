@@ -7,14 +7,16 @@ const { validarJWT } = require('../../middlewares/validar-jwt');
 
 const router = Router();
 // Todas tienes que pasar por la validación del JWT
-// router.use(validarJWT);
+router.use(validarJWT);
 
 router.get('/', getInventoryDentist)
 
 router.post(
     '/',
     [
-        check('products', 'El nombre de tipo de producto es obligatorio').not().isEmpty(),
+        check('product', 'El producto es obligatorio').not().isEmpty(),
+        check('units', 'La cantidad de unidades del producto es obligatorio').not().isEmpty(),
+        check('appoitment', 'La cita donde se gasto es obligatorio').not().isEmpty(),
         validarCampos
     ],
     createInventoryDentist

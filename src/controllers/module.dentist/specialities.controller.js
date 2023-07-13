@@ -6,7 +6,7 @@ const getSpecialities = async (req, res = response) => {
     try {
         const specialities = await SpecialitiesSchema.find({state : true})
         .select('name state')
-        .populate('dentist','name lastName email state')
+        .populate('dentists','name lastName email state')
         res.json({
             ok: true,
             specialities

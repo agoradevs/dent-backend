@@ -100,7 +100,7 @@ const deleteTypeDiscount = async (req, res = response) => {
 
         res.json({
             ok: true,
-            user: typeDisccountWithRef
+            typeDiscount: typeDisccountWithRef
         });
 
 

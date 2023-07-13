@@ -1,5 +1,4 @@
 const { response } = require('express');
-const bcrypt = require('bcryptjs');
 const { ProductExpenseSchema } = require('../../models');
 
 const getProductExpense = async (req, res = response) => {
@@ -9,7 +8,7 @@ const getProductExpense = async (req, res = response) => {
         .select('units')
         .select('cost')
         .select('description')
-        .populate('typeProduct', 'name')
+        .populate('productType', 'name')
     res.json({
         ok: true,
         Products
@@ -21,15 +20,13 @@ const createProductExpense = async (req, res = response) => {
     const Product = new ProductExpenseSchema(req.body);
     try {
 
-        // Encriptar contraseña
-
         const productoGuardado = await Product.save();
         const productoConReferencias = await ProductExpenseSchema.findById(productoGuardado.id)
-            .select('nameProduct')
+            .select('name')
             .select('units')
             .select('cost')
             .select('description')
-            .populate('ProductType', 'name')
+            .populate('productType', 'name')
 
         res.json({
             ok: true,
@@ -47,27 +44,29 @@ const createProductExpense = async (req, res = response) => {
 
 const updateProductExpense = async (req, res = response) => {
 
-    const productId = req.params.id;
+    const productId = req.query.id;
 
     try {
 
-        const nuevoProducto = {
+        const newProduct = {
             ...req.body
         }
 
-        const productoActualizado = await ProductExpenseSchema.findByIdAndUpdate(productId, nuevoProducto, { new: true },);
+        const productUpdate = await ProductExpenseSchema.findByIdAndUpdate(
+            productId, newProduct, { new: true }
+        );
 
-        const productoConReferencias = await ProductExpenseSchema.findById(productoActualizado.id)
+        const productWithRef = await ProductExpenseSchema.findById(productUpdate.id)
             .select('name')
             .select('units')
             .select('cost')
             .select('description')
-            .populate('ProductType', 'name')
+            .populate('productType', 'name')
 		;
 
         res.json({
             ok: true,
-            producto: productoConReferencias
+            product: productWithRef
         });
 
 
@@ -82,25 +81,20 @@ const updateProductExpense = async (req, res = response) => {
 
 const deleteProductExpense = async (req, res = response) => {
 
-    const productId = req.params.id;
+    const productId = req.query.id;
 
     try {
         const product = await ProductExpenseSchema.findById(productId)
-        if (product.isSuperUser) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No es posible eliminar a un super usuario'
-            });
-        }
-        let newProduct = { ...productId }
+        
+        const newProduct = { ...product }
         newProduct._doc.state = false;
 
         const productDelete = await ProductExpenseSchema.findByIdAndUpdate(productId, newProduct, { new: true },);
         const productWithRef = await ProductExpenseSchema.findById(productDelete.id)
-            .populate('ProductType', 'name')
+            .populate('productType', 'name')
         res.json({
             ok: true,
-            Producto: productWithRef
+            product: productWithRef
         });
 
 

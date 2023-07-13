@@ -17,7 +17,6 @@ class Server {
             
             // module users
             user       : '/api/user',
-            typeUser   : '/api/typeUser',
             roles      : '/api/roles',
             permissions: '/api/permissions',
             account    : '/api/account',
@@ -79,7 +78,6 @@ class Server {
 
         // module users
         this.app.use(this.paths.user, require('./routes/module.users/user.route'));
-        this.app.use(this.paths.typeUser, require('./routes/module.users/typeUser.route'));
         this.app.use(this.paths.roles, require('./routes/module.users/roles.route'));
         this.app.use(this.paths.permissions, require('./routes/module.users/permission.route'));
         this.app.use(this.paths.account, require('./routes/module.users/account.route'));
@@ -97,12 +95,10 @@ class Server {
         this.app.use(this.paths.typeTreatment, require('./routes/module.history/typeTreatment.route'));
 
         // module dentists
-        // this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
         this.app.use(this.paths.speciality, require('./routes/module.dentists/speciality.route'));
-        // this.app.use(this.paths.specialityDent, require('./routes/module.dentists/specialityDent.route'));
 
         // module billing
-        // this.app.use(this.paths.bill, require('./routes/module.billing/bill.route'));
+        this.app.use(this.paths.bill, require('./routes/module.billing/bill.route'));
         this.app.use(this.paths.discount, require('./routes/module.billing/discount.route'));
         this.app.use(this.paths.typeDiscount, require('./routes/module.billing/typeDiscount.route'));
     }

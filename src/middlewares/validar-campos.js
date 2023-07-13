@@ -9,7 +9,6 @@ const validarCampos = (req, res = response, next) => {
         return res.status(400).json(errors);
     }
 
-
     next();
 }
 

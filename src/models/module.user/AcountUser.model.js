@@ -1,6 +1,11 @@
 const {Schema, model} = require('mongoose');
 
 const AcountUserSchema = new Schema({
+    rol: {
+        type: Schema.Types.ObjectId,
+        ref: 'Roles',
+        required: [true, 'El rol es obligatorio']
+    },
     users: [{
         type: Schema.Types.ObjectId,
         ref: 'Users',

@@ -1,36 +1,24 @@
 const {Schema,model} = require('mongoose');
 
-const BillsSchema = Schema({
+const BillsSchema = new Schema({
     assistant:{
         type : Schema.Types.ObjectId,
         ref : 'Users',
         required : [true,'El nombre del encargado es obligatorio']
     },
-    treatment:[{
+    treatment:{
         type : Schema.Types.ObjectId,
         ref : 'Treatments',
         required : [true,'El tratamiento es obligatorio']  
-    }],
+    },
     discounts:[{
         type : Schema.Types.ObjectId,
         ref : 'Discounts',
-        required : true
+        default : null
     }],
-    taxes:{
-        type : Number,
-        required : true,
-    },
     paid:{
         type : Number,
         required : [true,'El pago es obligatorio']
-    },
-    total:{
-        type : Number,
-        required : [true,'El total del pago es obligatorio']
-    },
-    subtotal:{
-        type : Number,
-        required : [true,'El subtotal del pago es obligatorio']
     },
     paymentMethod:{
         type : String,
