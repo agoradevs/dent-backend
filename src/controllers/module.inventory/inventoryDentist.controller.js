@@ -101,10 +101,12 @@ const deleteInventoryDentist = async (req, res = response) => {
     try {
         const inventoryDentist = await InventoryDentistSchema.findById(InventoryDentistId)
 
-        const newInventoryDentist = { ...inventoryDentist }
+        const newInventoryDentist = { ...inventoryDentist };
         newInventoryDentist._doc.state = false;
 
-        const inventoryDentistDelete = await InventoryDentistSchema.findByIdAndUpdate(InventoryDentistId, newInventoryDentist, { new: true });
+        const inventoryDentistDelete = await InventoryDentistSchema.findByIdAndUpdate(
+            InventoryDentistId, newInventoryDentist, { new: true }
+        );
         const InventoryDentWithRef = await InventoryDentistSchema.findById(inventoryDentistDelete.id)
             .populate('appoitment', 'appoitmentDate')
             .populate('product', 'name')
@@ -112,7 +114,7 @@ const deleteInventoryDentist = async (req, res = response) => {
 
         res.json({
             ok: true,
-            Inventario: InventoryDentWithRef
+            Inventary: InventoryDentWithRef
         });
 
 

@@ -4,7 +4,7 @@ const { ProductExpenseSchema } = require('../../models');
 const getProductExpense = async (req, res = response) => {
 
     const Products = await ProductExpenseSchema.find()
-        .select('name')
+        .select('nameProduct')
         .select('units')
         .select('cost')
         .select('description')
