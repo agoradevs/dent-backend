@@ -66,7 +66,6 @@ const updateUser = async (req, res = response) => {
             .select('phoneNumber')
             .select('CI')
             .select('age')
-            .populate('rol', 'name')
 		;
 
         res.json({
@@ -102,7 +101,6 @@ const deleteUser = async (req, res = response) => {
             .select('phoneNumber')
             .select('CI')
             .select('age')
-            .populate('rol', 'name')
         ;
 
         res.json({

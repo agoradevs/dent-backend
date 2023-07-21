@@ -27,6 +27,7 @@ class Server {
             typeProduct   : '/api/typeProduct',
             cleanInventary: '/api/cleanInventary',
             dentInventary : '/api/dentInventary',
+            arrivalProduct: '/api/arrivalProducts',
 
             // module history
             appoinment   : '/api/appoitment',
@@ -88,6 +89,7 @@ class Server {
         this.app.use(this.paths.typeProduct, require('./routes/module.inventary/typeProduct.route'));
         this.app.use(this.paths.cleanInventary, require('./routes/module.inventary/cleaningInventory.route'));
         this.app.use(this.paths.dentInventary, require('./routes/module.inventary/inventoryDentist.route'));
+        this.app.use(this.paths.arrivalProduct, require('./routes/module.inventary/arrivalProducts.route'))
 
         // module history
         this.app.use(this.paths.appoinment, require('./routes/module.history/appoinment.route'));

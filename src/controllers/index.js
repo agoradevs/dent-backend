@@ -60,6 +60,9 @@ const {
 const{
     getInventoryDentist, createInventoryDentist, updateInventoryDentist, deleteInventoryDentist
 }=require('./module.inventory/inventoryDentist.controller');
+const{
+    getArrivalProducts, createArrivalProduct, updateArrivalProduct, deleteArrivalProduct
+}=require('./module.inventory/arrivalProducts.controller');
 
 module.exports = {
     // authUser,
@@ -91,6 +94,7 @@ module.exports = {
     getTypeProducts, createTypeProducts, updateTypeProduct, deleteTypeProduct,
     getProductExpense, createProductExpense, updateProductExpense, deleteProductExpense,
     getCleaningInventory, createCleaningInventory, updateCleaningInventory, deleteCleaningInventory,
-    getInventoryDentist, createInventoryDentist, updateInventoryDentist, deleteInventoryDentist 
+    getInventoryDentist, createInventoryDentist, updateInventoryDentist, deleteInventoryDentist,
+    getArrivalProducts, createArrivalProduct, updateArrivalProduct, deleteArrivalProduct
 
 }
