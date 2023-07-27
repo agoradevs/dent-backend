@@ -19,10 +19,8 @@ const getUsers = async (req, res = response) => {
 }
 
 const createUser = async (req, res = response) => {
-
     const user = new UserSchema(req.body);
     try {
-
         const userSave = await user.save();
         const userWithRef = await UserSchema.findById(userSave.id)
             .select('name')
@@ -30,22 +28,20 @@ const createUser = async (req, res = response) => {
             .select('email')
             .select('phoneNumber')
             .select('CI')
-            .select('age')
-        ;
+            .select('age');
 
         res.json({
             ok: true,
             user: userWithRef
-        })
-
+        });
     } catch (error) {
-        console.log(error)
+        console.error(error); // Imprime el error en la consola del servidor
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
         });
     }
-}
+};
 
 const updateUser = async (req, res = response) => {
 
@@ -66,7 +62,6 @@ const updateUser = async (req, res = response) => {
             .select('phoneNumber')
             .select('CI')
             .select('age')
-            .populate('rol', 'name')
 		;
 
         res.json({
@@ -102,7 +97,6 @@ const deleteUser = async (req, res = response) => {
             .select('phoneNumber')
             .select('CI')
             .select('age')
-            .populate('rol', 'name')
         ;
 
         res.json({
