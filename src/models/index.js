@@ -14,7 +14,7 @@ const SpecialitiesSchema = require('./module.dentist/Specialities.model');
 const BillsSchema = require('./module.billing/Bills.model');
 const DiscountSchema = require('./module.billing/Discount.model');
 const TypeDisccountSchema = require('./module.billing/TypeDiscount.model');
-
+const ArrivalProductSchema = require('./module.inventory/ArrivalProducts.model');
 
 
 module.exports = {
@@ -33,5 +33,6 @@ module.exports = {
     SpecialitiesSchema,
     BillsSchema,
     DiscountSchema,
-    TypeDisccountSchema
+    TypeDisccountSchema,
+    ArrivalProductSchema
 }

@@ -32,7 +32,7 @@ const createCleaningInventory = async (req, res = response) => {
             .select('description')
             .select('date')
             .select('cost')
-            .populate('productExpense', 'nameProduct units cost description')
+            .populate('productExpense', 'name units cost description')
 
         res.json({
             ok: true,
