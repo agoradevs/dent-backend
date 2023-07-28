@@ -4,6 +4,7 @@ const path = require('path');
 const { createServer } = require('http');
 const { dbConnection } = require('./database');
 
+
 class Server {
 
     constructor() {
@@ -70,7 +71,7 @@ class Server {
 
         // Directorio Público
         const publicPath = path.resolve(__dirname, './../public');
-        this.app.use(express.static(publicPath));
+        this.app.use(express.static(publicPath));   
     }
 
     routes() {
@@ -103,6 +104,11 @@ class Server {
         this.app.use(this.paths.bill, require('./routes/module.billing/bill.route'));
         this.app.use(this.paths.discount, require('./routes/module.billing/discount.route'));
         this.app.use(this.paths.typeDiscount, require('./routes/module.billing/typeDiscount.route'));
+
+        // Ruta para manejar todas las solicitudes y enviar el archivo index.html
+        this.app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname, './../public', 'index.html'));
+        });
     }
 
     listen() {
