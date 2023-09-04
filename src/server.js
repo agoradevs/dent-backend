@@ -12,7 +12,8 @@ class Server {
         this.server = createServer(this.app);
 
         this.paths = {
-            //rutas
+            auth_patient : 'api/auth_patient',
+            auth_user    : 'api/auth_user',
         };
 
         // Conectar a base de datos
