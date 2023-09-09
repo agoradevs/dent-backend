@@ -1,48 +1,56 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = Schema({
-    rol: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Roles',
-        required: [true, 'El rol es obligatorio']
-    }],
-    typeUser: {
-        type: Schema.Types.ObjectId,
-        ref: 'TypeUsers',
-        required: [true, 'El tipo de usuario es obligatorio']
-    },
-    name: {
-        type: String,
-        required: [true, 'El nombre es obligatorio']
-    },
-    lastName: {
-        type: String,
-        required: [true, 'El nombre es obligatorio']
-    },
-    email: {
-        type: String,
-        required: [true, 'El correo es obligatorio'],
-        unique: true
-    },
-    password: {
-        type: String,
-        required: [true, 'La contraseña es obligatoria']
-    },
-    phoneNumber: {
-        type: String,
-		default: 'No tiene número de celular'
-    },
-    CI: {
-        type: String,
-		required: [true, 'El carnet de indetidad es obligatorio'],
+	FirstName: {
+		type: String,
+		required: [true, 'Los nombres son obligatorios']
+	},
+	LastName: {
+		type: String,
+		required: [true, 'Los apellidos son obligatorios']
+	},
+	Email: {
+		type: String,
+		required: [true, 'El correo es obligatorio'],
 		unique: true
-    }
+	},
+	Age: {
+		type: Number,
+		required: [true, 'La edad es obligatoria'],
+	},
+	Password: {
+		type: String,
+		required: [true, 'La contraseña es obligatoria'],
+	},
+	PhoneNumber: {
+		type: String,
+		default: 'No tiene número de celular',
+	},
+	CI: {
+		type: String,
+		required: [true, 'El carnet de indetidad es obligatorio'],
+		unique: true,
+	},
+	Rol: {
+		type: Schema.Types.ObjectId,
+		ref: 'Rol',
+		required: [true, 'El rol es obligatorio']
+	},
+	Perfil :{
+		type : String,
+		data : Buffer,
+		default : 'No tiene foto de perfil',
+	},
+	State: {
+		type: String,
+		default : 'Normal',
+	},
 });
 
 UserSchema.method('toJSON', function () {
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
+	const { __v, _id, ...object } = this.toObject();
+	object.id = _id;
+	return object;
 });
 
 module.exports = model('Users', UserSchema);
