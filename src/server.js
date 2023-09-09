@@ -46,8 +46,8 @@ class Server {
     }
 
     routes() {
-        //auth
-        // this.app.use(this.paths.auth, require('./routes/auth.route'));
+        // auth
+        this.app.use(this.paths.auth, require('./routes/auth.route'));
         //rutas
     }
 
