@@ -6,16 +6,24 @@ const PaymentSchema = Schema({
     ref : 'Users',
 		required: [true, 'El secretario es obligatorio']
 	},
-	Treatment: {
+	Treatments: [{
 		type: Schema.Types.ObjectId,
     ref : 'Treatments',
 		required: [true, 'El tratamiento a pagar es obligatorio']
-	},
+	}],
 	Disccounts: [{
 		type: Schema.Types.ObjectId,
     ref : 'Disccounts',
 		required: [true, 'El descuento para este pago es obligatorio']
 	}],
+	NamePayment : {
+		type : String,
+		required : [true, 'El nombre del que paga es obligatorio']
+	},
+	SubTotal: {
+		type: Number,
+		required: true,
+	},
 	Total: {
 		type: Number,
 		required: true,

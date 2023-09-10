@@ -1,21 +1,21 @@
 const { Schema, model } = require('mongoose');
 
 const TreatmentsSchema = Schema({
-  Dentist: {
+	Dentist: {
 		type: Schema.Types.ObjectId,
 		ref: 'Users',
 		required: [true, 'El dentista asignado es obligatorio'],
-  },
-  TypeTreatment : {
-    type : Schema.Types.ObjectId,
-    ref : 'TypeTreatment',
-    required : [true, 'El tipo de tratamiento para este tratamiento es obligatorio'],
-  },
-  Patient : {
-    type: Schema.Types.ObjectId,
-    ref: 'Patients',
-    required: [true, 'El paciente es obligatorio'],
-  },
+	},
+	TypeTreatment : {
+		type : Schema.Types.ObjectId,
+		ref : 'TypeTreatment',
+		required : [true, 'El tipo de tratamiento para este tratamiento es obligatorio'],
+	},
+	Patient : {
+		type: Schema.Types.ObjectId,
+		ref: 'Patients',
+		required: [true, 'El paciente es obligatorio'],
+	},
 	Teeths: [{
 		type: String,
 		required: [true, 'Los dientes son obligatorios'],
@@ -26,7 +26,7 @@ const TreatmentsSchema = Schema({
 	},
 	State: {
 		type: String,
-    default : 'Inicio',
+		default : 'Inicio',
 	},
 });
 

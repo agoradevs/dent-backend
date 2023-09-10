@@ -1,11 +1,11 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = Schema({
-	Secretary: {
+const DisccountsSchema = Schema({
+	TypesAccount: [{
 		type: Schema.Types.ObjectId,
-    ref : 'Users',
+    ref : 'TypesAccount',
 		required: [true, 'El secretario es obligatorio']
-	},
+	}],
   Name :{
     type : String,
     required : [true, 'El nombre es obligatorio'],
@@ -20,11 +20,11 @@ const UserSchema = Schema({
 	},
 });
 
-UserSchema.method('toJSON', function () {
+DisccountsSchema.method('toJSON', function () {
 	const { __v, _id, ...object } = this.toObject();
 	object.id = _id;
 	return object;
 });
 
-module.exports = model('Users', UserSchema);
+module.exports = model('Disccounts', DisccountsSchema);
 
